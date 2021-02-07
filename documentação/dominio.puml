@@ -1,0 +1,45 @@
+class Usuario{
+    String username
+    String password
+    PerfilDeUsuario perfil
+}
+
+enum PerfilDeUsuario {
+    ADMIN, 
+    COLABORADOR
+}
+
+class Quadro{
+    String titulo
+    String descricao
+    Usuario criador
+    LocalDateTime dataDeCriacao
+    Set<Usuario> membros
+
+}
+
+class Coluna{
+    String titulo
+    Quadro quadro 
+}
+
+class Cartao{
+    String titulo
+    String descricao
+    Coluna coluna 
+    List<Comentario> comentarios
+}
+
+class Comentario{
+    String descricao
+    LocalDateTime dataDeCriacao 
+    Usuario criador
+}
+
+PerfilDeUsuario "1" --* "N" Usuario 
+Usuario "1" --* "N" Quadro
+Quadro "1" --* "N" Usuario
+Coluna "N" *-- "1" Quadro
+Cartao "N" *-- "1" Coluna
+Comentario "N" *-- "1" Usuario
+Cartao "1" --* "N" Comentario
