@@ -1,0 +1,9 @@
+actor Admin 
+actor Colaborador
+
+(Criar Quadro)
+(Mover Card)
+
+:Admin: -> (Criar Quadro)
+:Admin: -> (Mover Card)
+:Colaborador: -> (Mover Card)
