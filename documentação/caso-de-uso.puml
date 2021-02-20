@@ -1,9 +1,50 @@
-actor Admin 
-actor Colaborador
+@startuml
+
+left to right direction
+
+actor "Dono do quadro" as DonoDoQuadro
+actor "Membro do quadro" as MembroDoQuadro
 
 (Criar Quadro)
-(Mover Card)
+(Adicionar Membros)
+(Remover Membros)
+(Transferir Titularidade do Quadro)
+(Arquivar Quadro)
+(Reabrir Quadro)
+(Criar Coluna)
+(Excluir Coluna)
+(Criar Cartão)
+(Excluir Cartão)
+(Mover Cartão)
+(Editar Cartão)
+(Comentar no Cartão)
+(Editar Comentário)
+(Excluir Comentário)
 
-:Admin: -> (Criar Quadro)
-:Admin: -> (Mover Card)
-:Colaborador: -> (Mover Card)
+:DonoDoQuadro: -> (Criar Quadro)
+:DonoDoQuadro: -> (Adicionar Membros)
+:DonoDoQuadro: -> (Remover Membros)
+:DonoDoQuadro: -> (Transferir Titularidade do Quadro)
+:DonoDoQuadro: -> (Arquivar Quadro)
+:DonoDoQuadro: -> (Reabrir Quadro)
+:DonoDoQuadro: -> (Criar Coluna)
+:DonoDoQuadro: -> (Excluir Coluna)
+:DonoDoQuadro: -> (Criar Cartão)
+:MembroDoQuadro: -> (Criar Cartão)
+:DonoDoQuadro: -> (Excluir Cartão)
+:MembroDoQuadro: -> (Excluir Cartão)
+:DonoDoQuadro: -> (Editar Cartão)
+:MembroDoQuadro: -> (Editar Cartão)
+:DonoDoQuadro: -> (Mover Cartão)
+:MembroDoQuadro: -> (Mover Cartão)
+:DonoDoQuadro: -> (Comentar no Cartão)
+:MembroDoQuadro: -> (Comentar no Cartão)
+:DonoDoQuadro: -> (Editar Comentário)
+:MembroDoQuadro: -> (Editar Comentário)
+:DonoDoQuadro: -> (Excluir Comentário)
+:MembroDoQuadro: -> (Excluir Comentário)
+
+
+
+
+@enduml

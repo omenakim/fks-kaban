@@ -1,26 +1,29 @@
 class Usuario{
     String username
     String password
-    PerfilDeUsuario perfil
-}
-
-enum PerfilDeUsuario {
-    ADMIN, 
-    COLABORADOR
+    Usuario(String username, String password) 
 }
 
 class Quadro{
     String titulo
     String descricao
-    Usuario criador
+    Usuario dono
     LocalDateTime dataDeCriacao
     Set<Usuario> membros
-
+    Boolean aberto
+    Quadro(String titutlo, String descricao, Usuario dono)
+    adicionarMembro(Usuario membro)
+    removerMembro(Usuario membro)
+    transferirTitularidade(Usuario membro)
+    arquivar()
+    reabrir()
 }
 
 class Coluna{
     String titulo
     Quadro quadro 
+    Coluna(String titulo, Quadro quadro)
+
 }
 
 class Cartao{
@@ -28,15 +31,22 @@ class Cartao{
     String descricao
     Coluna coluna 
     List<Comentario> comentarios
+    Cartao(String titulo, String descricao, Coluna coluna)
+    editar(String titulo, String descricao)
+    mover(Coluna coluna)
+    comentar(Comentario comentario)
+    excluirComentario(Comentario comentario)
+    substituirComentario(Comentario comentario)
 }
 
 class Comentario{
     String descricao
     LocalDateTime dataDeCriacao 
     Usuario criador
+    Comentario(String descricao, Usuario criador)
+    editar(String descricao)
 }
 
-PerfilDeUsuario "1" --* "N" Usuario 
 Usuario "1" --* "N" Quadro
 Quadro "1" --* "N" Usuario
 Coluna "N" *-- "1" Quadro
