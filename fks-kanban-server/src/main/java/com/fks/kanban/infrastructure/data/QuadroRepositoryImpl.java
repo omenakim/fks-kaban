@@ -1,4 +1,4 @@
-package com.fks.kanban.infrastructure;
+package com.fks.kanban.infrastructure.data;
 
 import com.fks.kanban.domain.model.Quadro;
 import com.fks.kanban.domain.model.Usuario;
