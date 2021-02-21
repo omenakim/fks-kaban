@@ -1,0 +1,17 @@
+spring:
+
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://localhost/fkskanban?useSSL=false&characterEncoding=UTF-8&useTimezone=true&serverTimezone=America/Sao_Paulo
+    username: root
+    password: ladp12
+    tomcat:
+      connection-properties: useUnicode=true;characterE
