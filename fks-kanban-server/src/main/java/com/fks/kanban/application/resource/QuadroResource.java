@@ -1,8 +1,11 @@
 package com.fks.kanban.application.resource;
 
 import com.fks.kanban.application.resource.request.CriarQuadroRequest;
+import com.fks.kanban.domain.exception.UsuarioNaoEncontradoException;
+import com.fks.kanban.domain.model.Usuario;
 import com.fks.kanban.domain.model.dto.QuadroSumarioDTO;
 import com.fks.kanban.domain.repository.QuadroRepository;
+import com.fks.kanban.domain.repository.UsuarioRepository;
 import com.fks.kanban.domain.service.CriacaoDeQuadroService;
 import com.fks.kanban.infrastructure.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class QuadroResource {
     private QuadroRepository quadroRepository;
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private SecurityService securityService;
 
     @GetMapping
@@ -32,7 +38,11 @@ public class QuadroResource {
 
         String username = securityService.getUsername();
 
-        return quadroRepository.findAllByDonoUsername(pageable, username);
+        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(
+                ()-> new UsuarioNaoEncontradoException(username)
+        );
+
+        return quadroRepository.findAllThatUserBelongs(pageable, usuario);
     }
 
     @PostMapping

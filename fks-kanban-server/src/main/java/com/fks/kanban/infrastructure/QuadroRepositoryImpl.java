@@ -1,6 +1,7 @@
 package com.fks.kanban.infrastructure;
 
 import com.fks.kanban.domain.model.Quadro;
+import com.fks.kanban.domain.model.Usuario;
 import com.fks.kanban.domain.model.dto.QuadroSumarioDTO;
 import com.fks.kanban.domain.repository.QuadroQueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<QuadroSumarioDTO> findAllByDonoUsername(Pageable pageable, String username) {
+    public Page<QuadroSumarioDTO> findAllThatUserBelongs(Pageable pageable, Usuario usuario) {
 
         var builder = entityManager.getCriteriaBuilder();
         var query = builder.createQuery(QuadroSumarioDTO.class);
@@ -38,7 +39,7 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
                 )
         );
 
-        predicates.add(builder.equal(root.get("dono").get("username"), username));
+        predicates.add(builder.isMember(usuario, root.get("membros")));
 
         query.where(predicates.toArray(new Predicate[0]));
 

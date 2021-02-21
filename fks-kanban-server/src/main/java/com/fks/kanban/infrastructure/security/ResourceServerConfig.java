@@ -28,7 +28,8 @@ class ResourceServerConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
             "/docs/**",
             "/webjars/**",
-            "/public/**"
+            "/public/**",
+            "/h2-console/**"
     };
 
     @Override
