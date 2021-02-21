@@ -1,0 +1,403 @@
+{
+	"info": {
+		"_postman_id": "c0469aef-1761-4206-abcf-28e55cacc600",
+		"name": "FKS-Kanban",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Security",
+			"item": [
+				{
+					"name": "Get Access Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "kanban-ui",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client",
+									"value": "kanban-ui",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "omenakim",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/oauth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke Access Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.environment.get(\"baseEntryPoint\") + '/oauth/token',",
+									"    method: 'POST',",
+									"    header: ",
+									"        {",
+									"            'content-type': 'application/x-www-form-urlencoded',",
+									"            'cache-control': 'no-cache',",
+									"            'Authorization': 'Basic ZXJwX3VpOkxAZHAxMg=='",
+									"        },",
+									"    body: ",
+									"        {",
+									"            mode: 'urlencoded',",
+									"            urlencoded: [",
+									"                    { key: \"client\", value: pm.environment.get(\"client\") },",
+									"                    { key: \"username\", value: pm.environment.get(\"user\")},",
+									"                    { key: \"password\", value: pm.environment.get(\"password\") },",
+									"                    { key: \"grant_type\", value: pm.environment.get(\"grant_type\") }",
+									"            ]",
+									"        }",
+									"}, function (err, res) {",
+									"    if(res.code != 200){        ",
+									"        console.log(\"Erro ao renovar Access Token\");",
+									"        return;",
+									"    }",
+									"    pm.environment.set(\"access_token\", res.json().access_token);",
+									"    console.log(\"Access Token renovado\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sIm5hbWUiOiJBZG1pbiIsImlkIjoxLCJleHAiOjE2MDY3NDM1ODUsImF1dGhvcml0aWVzIjpbIkFETUlOIl0sImp0aSI6IjgxOTlkNDJkLTRlMmEtNDJiMC04NTkwLWJiMmU5ZGNjMzI5NyIsImNsaWVudF9pZCI6ImdmcF91aSJ9.Pwi1Ms9cmPkHW6hLAT4ZNvV4S6UZ6grhQMzRcvbRUjE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/auth/token/revoke",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"token",
+								"revoke"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Access Token By Refresh Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "kanban-ui",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJvbWVuYWtpbSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJhdGkiOiJiMDEyMzMyMy1jNThlLTQxZWEtOWEwMS0zMTUzNTZlYWQwODkiLCJpZCI6MSwiZXhwIjoxNjEzOTQ4MjcwLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiN2RiNTBkNjAtMmVhYy00NTdlLTg4NWYtMGJlNzU3NTViOGYxIiwiY2xpZW50X2lkIjoia2FuYmFuLXVpIn0._FG5v5OtcVTuOy1qi2-TMttlfmDALTKChc_CE7fQtcg",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/oauth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Quadro",
+			"item": [
+				{
+					"name": "Criar Quadro",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.environment.get(\"baseEntryPoint\") + '/oauth/token',",
+									"    method: 'POST',",
+									"    header: ",
+									"        {",
+									"            'content-type': 'application/x-www-form-urlencoded',",
+									"            'cache-control': 'no-cache',",
+									"            'Authorization': 'Basic ZXJwX3VpOkxAZHAxMg=='",
+									"        },",
+									"    body: ",
+									"        {",
+									"            mode: 'urlencoded',",
+									"            urlencoded: [",
+									"                    { key: \"client\", value: pm.environment.get(\"client\") },",
+									"                    { key: \"username\", value: pm.environment.get(\"user\")},",
+									"                    { key: \"password\", value: pm.environment.get(\"password\") },",
+									"                    { key: \"grant_type\", value: pm.environment.get(\"grant_type\") }",
+									"            ]",
+									"        }",
+									"}, function (err, res) {",
+									"    if(res.code != 200){        ",
+									"        console.log(\"Erro ao renovar Access Token\");",
+									"        return;",
+									"    }",
+									"    pm.environment.set(\"access_token\", res.json().access_token);",
+									"    console.log(\"Access Token renovado\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJvbWVuYWtpbSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJpZCI6MSwiZXhwIjoxNjEzOTQ2ODYxLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiYzNkNTA3MDItZjE4Ny00MGRiLWExOWYtY2Q1NWMxNTllM2U0IiwiY2xpZW50X2lkIjoia2FuYmFuLXVpIn0.h28qINYzt7UWeAshz9VFsMZtMeCaHe8ZEaqlqhG-CsI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\": \"Quadro de tarefas 2\",\n    \"descricao\": \"Descrição do quadro\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/quadros",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"quadros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Todos os Quadros",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({",
+									"    url: pm.environment.get(\"baseEntryPoint\") + '/oauth/token',",
+									"    method: 'POST',",
+									"    header: ",
+									"        {",
+									"            'content-type': 'application/x-www-form-urlencoded',",
+									"            'cache-control': 'no-cache',",
+									"            'Authorization': 'Basic ZXJwX3VpOkxAZHAxMg=='",
+									"        },",
+									"    body: ",
+									"        {",
+									"            mode: 'urlencoded',",
+									"            urlencoded: [",
+									"                    { key: \"client\", value: pm.environment.get(\"client\") },",
+									"                    { key: \"username\", value: pm.environment.get(\"user\")},",
+									"                    { key: \"password\", value: pm.environment.get(\"password\") },",
+									"                    { key: \"grant_type\", value: pm.environment.get(\"grant_type\") }",
+									"            ]",
+									"        }",
+									"}, function (err, res) {",
+									"    if(res.code != 200){        ",
+									"        console.log(\"Erro ao renovar Access Token\");",
+									"        return;",
+									"    }",
+									"    pm.environment.set(\"access_token\", res.json().access_token);",
+									"    console.log(\"Access Token renovado\");",
+									"",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJvbWVuYWtpbSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJpZCI6MSwiZXhwIjoxNjEzOTQ2ODYxLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwianRpIjoiYzNkNTA3MDItZjE4Ny00MGRiLWExOWYtY2Q1NWMxNTllM2U0IiwiY2xpZW50X2lkIjoia2FuYmFuLXVpIn0.h28qINYzt7UWeAshz9VFsMZtMeCaHe8ZEaqlqhG-CsI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/quadros",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"quadros"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

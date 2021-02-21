@@ -36,7 +36,7 @@ public class CriacaoDeQuadroService {
 
         quadroRepository.save(quadro);
 
-        log.info("Quadro de id {} criado com sucesso", quadro.getId());
+        log.info("Quadro de id {} criado com sucesso pelo usuário: {}", quadro.getId(), username);
     }
 
 }
