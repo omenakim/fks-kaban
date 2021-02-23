@@ -38,18 +38,32 @@ public class LoadInitialDataRunner implements ApplicationRunner {
                 encoder.encode("12345"),
                 "read,write",
                 "password,refresh_token",
-                180,
+                3600,
                 3600
         );
 
         clientDetailsRepository.save(client);
 
-        var usuario = new Usuario(
+        var kim = new Usuario(
                 "omenakim",
                 encoder.encode("12345")
         );
 
-        usuarioRepository.save(usuario);
+        usuarioRepository.save(kim);
+
+        var franklin = new Usuario(
+                "fkazeredo",
+                encoder.encode("12345")
+        );
+
+        usuarioRepository.save(franklin);
+
+        var julio = new Usuario(
+                "omenajulio",
+                encoder.encode("12345")
+        );
+
+        usuarioRepository.save(julio);
 
     }
 }

@@ -7,6 +7,7 @@ import com.fks.kanban.domain.model.dto.QuadroSumarioDTO;
 import com.fks.kanban.domain.repository.QuadroRepository;
 import com.fks.kanban.domain.repository.UsuarioRepository;
 import com.fks.kanban.domain.service.CriacaoDeQuadroService;
+import com.fks.kanban.domain.service.QuadroService;
 import com.fks.kanban.infrastructure.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,9 +33,12 @@ public class QuadroResource {
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private QuadroService quadroService;
+
     @GetMapping
     @PreAuthorize("@securityService.isAuthenticated()")
-    public Page<QuadroSumarioDTO> listarQuadros(Pageable pageable){
+    public Page<QuadroSumarioDTO> listarQuadrosDoUsuarioLogado(Pageable pageable){
 
         String username = securityService.getUsername();
 
@@ -51,7 +55,7 @@ public class QuadroResource {
 
         String username = securityService.getUsername();
 
-        this.criacaoDeQuadro.executar(request.getTitulo(), request.getDescricao(), username);
+        this.quadroService.criar(request.getTitulo(), request.getDescricao(), username);
 
     }
 }
