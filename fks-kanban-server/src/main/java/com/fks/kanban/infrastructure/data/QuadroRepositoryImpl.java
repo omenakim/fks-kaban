@@ -11,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
@@ -25,11 +28,11 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
     @Override
     public Page<QuadroSumarioDTO> findAllThatUserBelongs(Pageable pageable, Usuario usuario) {
 
-        var builder = entityManager.getCriteriaBuilder();
-        var query = builder.createQuery(QuadroSumarioDTO.class);
-        var root = query.from(Quadro.class);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<QuadroSumarioDTO> query = builder.createQuery(QuadroSumarioDTO.class);
+        Root<Quadro> root = query.from(Quadro.class);
 
-        var predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<Predicate>();
 
         query.select(
                 builder.construct(
@@ -45,22 +48,19 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
 
         query.orderBy(builder.desc(root.get("dataDeCriacao")));
 
-        var typedQuery = entityManager.createQuery(query);
+        TypedQuery<QuadroSumarioDTO> typedQuery = entityManager.createQuery(query);
 
         typedQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         typedQuery.setMaxResults(pageable.getPageSize());
 
-        return new PageImpl<>(typedQuery.getResultList(), pageable, total(predicates, root));
+        return new PageImpl<>(typedQuery.getResultList(), pageable, total(root, predicates));
     }
 
-    Long total(List<Predicate> predicates, Root<Quadro> baseRoot) {
-        var builder = entityManager.getCriteriaBuilder();
-        var query = builder.createQuery(Long.class);
-        var root = query.from(baseRoot.getModel().getBindableJavaType());
+    Long total(Root<Quadro> baseRoot, List<Predicate> predicates) {
 
-        for (var join : baseRoot.getJoins()) {
-            root.join(join.getAttribute().getName());
-        }
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root<Quadro> root = query.from(baseRoot.getModel().getBindableJavaType());
 
         query.select(builder.count(root));
         query.where(predicates.toArray(new Predicate[0]));
