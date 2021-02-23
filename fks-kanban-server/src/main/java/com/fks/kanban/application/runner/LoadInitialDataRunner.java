@@ -44,12 +44,26 @@ public class LoadInitialDataRunner implements ApplicationRunner {
 
         clientDetailsRepository.save(client);
 
-        var usuario = new Usuario(
+        var kim = new Usuario(
                 "omenakim",
                 encoder.encode("12345")
         );
 
-        usuarioRepository.save(usuario);
+        usuarioRepository.save(kim);
 
+
+        var franklin = new Usuario(
+                "fkazeredo",
+                encoder.encode("12345")
+        );
+
+        usuarioRepository.save(franklin);
+
+        var julio = new Usuario(
+                "omenajulio",
+                encoder.encode("12345")
+        );
+
+        usuarioRepository.save(julio);
     }
 }

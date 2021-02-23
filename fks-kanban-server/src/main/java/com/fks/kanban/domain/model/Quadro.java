@@ -43,7 +43,7 @@ public class Quadro {
     @JoinTable(name = "quadro_membros",
             joinColumns = @JoinColumn(name = "quadro_id"),
             inverseJoinColumns = @JoinColumn(name = "membro_id"))
-    private Set<Usuario> membros;
+    private Set<Usuario> membros = new HashSet<>();
 
     @NotNull
     private Boolean aberto;
@@ -53,9 +53,16 @@ public class Quadro {
         this.descricao = descricao;
         this.dono = dono;
         this.dataDeCriacao = LocalDateTime.now();
-        this.membros = new HashSet<>();
         this.membros.add(dono);
         this.aberto = true;
+    }
+
+    public void adicionarMembro(Usuario membro){
+        this.membros.add(membro);
+    }
+
+    public void removerMembro(Usuario membro){
+        this.membros.remove(membro);
     }
 
     protected Quadro() {
