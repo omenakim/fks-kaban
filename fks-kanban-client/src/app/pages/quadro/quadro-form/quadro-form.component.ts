@@ -37,7 +37,7 @@ export class QuadroFormComponent implements OnInit {
     });
   }
 
-  createRequest(){
+  createRequest() {
     this.quadroRequest = {
       titulo: this.form.value.titulo,
       descricao: this.form.value.descricao
@@ -48,6 +48,8 @@ export class QuadroFormComponent implements OnInit {
     this.createRequest();
     this.quadroService.save(this.quadroRequest).subscribe(() => {
       this.messageService.showMessage(['Quadro criado com sucesso'], 'success');
+      this.close();
+    }, () => {
       this.close();
     });
   }
