@@ -1,0 +1,12 @@
+.logo {
+    width: 135px;;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-toolbar {
+    height: 80px;
+    margin-bottom: 10px !important;
+}

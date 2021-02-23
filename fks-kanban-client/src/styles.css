@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+.primary {
+    background-color: #455A64;
+    color: #FFFFFF;
+}
+.light-primary {
+    background-color: #CFD8DC;
+    color: #212121;
+}
+.accent {
+    background-color: #FF9800;
+    color: #212121;
+}
+.black {
+    background-color: #212121;
+}
+
+.primary-text {
+    color: #455A64;
+}
+.light-primary-text {
+    color: #CFD8DC;
+}
+.accent-text {
+    color: #FF9800;
+}
+.black-text {
+    color: #212121;
+}
+
+.search-filter{
+    margin-bottom: 10px;
+}
+
+.success {
+    background-color: #28a745!important;
+    color: #FFFFFF !important;
+}
+
+.danger {
+    background-color:#dc3545!important;
+    color: #FFFFFF !important;
+}
+
+.warning {
+    background-color:#ffc107!important;
+    color: #000000 !important;
+}
+
+.success-text {
+    color: #28a745!important;
+}
+
+.danger-text {
+    color:#dc3545!important;
+}
+
+.warning-text {
+    color:#ffc107!important;
+}

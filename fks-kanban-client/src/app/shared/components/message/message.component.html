@@ -1,0 +1,7 @@
+<mat-card class="message-card" *ngIf="messageService.messageData.messages.length > 0" class="{{messageService.messageData.type}}">
+    <mat-card-content>
+        <ul *ngFor="let msg of messageService.messageData.messages">
+            <li>{{msg}}</li>
+        </ul>
+    </mat-card-content>
+</mat-card>

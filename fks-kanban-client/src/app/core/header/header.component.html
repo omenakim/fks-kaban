@@ -1,0 +1,18 @@
+<mat-toolbar class="primary">
+    <span>
+        <img class="logo" src="assets/img/logo.png" alt="image">
+    </span>
+    <span class="toolbar-spacer"></span>
+    <button *ngIf="!authService.isAuthenticated()" [routerLink]="['/home/login']" mat-flat-button class="primary hide-sm">
+        <mat-icon aria-hidden="false" >exit_to_app</mat-icon>
+        Acessar
+    </button>
+    <button *ngIf="authService.isAuthenticated()" mat-button [matMenuTriggerFor]="menu">
+        <mat-icon aria-hidden="false" >account_circle</mat-icon>
+        {{authService.jwtPayload.user_name}}
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>Meus Dados</button>
+        <button mat-menu-item (click)="logout()">Sair</button>
+    </mat-menu>
+</mat-toolbar>
