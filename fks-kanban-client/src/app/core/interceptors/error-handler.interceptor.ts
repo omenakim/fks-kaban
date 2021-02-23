@@ -49,8 +49,8 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
               type = 'danger';
             } else {
               type = 'warning';
-              if (response.error.details) {
-                response.error.details.forEach(detail => {
+              if (response.error.errors) {
+                response.error.errors.forEach(detail => {
                   if (detail)
                     messages.push(detail.userMessage);
                 });
@@ -58,7 +58,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
                 if (response.error.title)
                   messages.push(response.error.title);
               }
-
             }
 
           } else {
