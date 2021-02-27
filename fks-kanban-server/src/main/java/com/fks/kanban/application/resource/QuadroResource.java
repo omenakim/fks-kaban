@@ -3,7 +3,7 @@ package com.fks.kanban.application.resource;
 import com.fks.kanban.application.resource.request.CriarQuadroRequest;
 import com.fks.kanban.domain.exception.UsuarioNaoEncontradoException;
 import com.fks.kanban.domain.model.Usuario;
-import com.fks.kanban.domain.model.dto.QuadroSumarioDTO;
+import com.fks.kanban.domain.repository.representation.QuadroSumarioDTO;
 import com.fks.kanban.domain.repository.QuadroRepository;
 import com.fks.kanban.domain.repository.UsuarioRepository;
 import com.fks.kanban.domain.service.CriacaoDeQuadroService;

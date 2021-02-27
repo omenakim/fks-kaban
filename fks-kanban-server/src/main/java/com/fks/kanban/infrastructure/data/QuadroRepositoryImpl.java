@@ -2,8 +2,8 @@ package com.fks.kanban.infrastructure.data;
 
 import com.fks.kanban.domain.model.Quadro;
 import com.fks.kanban.domain.model.Usuario;
-import com.fks.kanban.domain.model.dto.QuadroSumarioDTO;
 import com.fks.kanban.domain.repository.QuadroQueryRepository;
+import com.fks.kanban.domain.repository.representation.QuadroSumarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,13 +32,14 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
         CriteriaQuery<QuadroSumarioDTO> query = builder.createQuery(QuadroSumarioDTO.class);
         Root<Quadro> root = query.from(Quadro.class);
 
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
 
         query.select(
                 builder.construct(
                         QuadroSumarioDTO.class,
                         root.get("id"),
-                        root.get("titulo")
+                        root.get("titulo"),
+                        root.get("dataDeCriacao")
                 )
         );
 

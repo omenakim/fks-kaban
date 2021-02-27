@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -18,8 +19,16 @@ export class QuadroService {
     return this.http.post<void>(`${this.apiURL}`, criarQuadroRequest, { withCredentials: true }).pipe(take(1));
   }
 
-  findAllThatUserBelongs(): Observable<QuadroSumario[]> {
-    return this.http.get(`${this.apiURL}`);
+  findAllThatUserBelongs(page: number, size: number): Observable<QuadroSumario[]> {
+
+    let params = new HttpParams({
+      fromObject: {
+        page: page.toString(),
+        size: size.toString(),
+      }
+    });
+
+    return this.http.get(`${this.apiURL}`, { params });
   }
 
 }

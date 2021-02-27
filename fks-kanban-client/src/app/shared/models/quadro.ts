@@ -1,6 +1,7 @@
 export interface QuadroSumario {
     id?: number;
-    titulo: string;
+    titulo?: string;
+    dataDeCriacao?: Date;
 }
 
 export interface CriarQuadroRequest {
