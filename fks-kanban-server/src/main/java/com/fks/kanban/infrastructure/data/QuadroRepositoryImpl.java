@@ -3,7 +3,7 @@ package com.fks.kanban.infrastructure.data;
 import com.fks.kanban.domain.model.Quadro;
 import com.fks.kanban.domain.model.Usuario;
 import com.fks.kanban.domain.repository.QuadroQueryRepository;
-import com.fks.kanban.domain.repository.representation.QuadroSumarioDTO;
+import com.fks.kanban.domain.repository.representation.QuadroSumarioRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,17 +26,17 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<QuadroSumarioDTO> findAllThatUserBelongs(Pageable pageable, Usuario usuario) {
+    public Page<QuadroSumarioRepresentation> findAllThatUserBelongs(Pageable pageable, Usuario usuario) {
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<QuadroSumarioDTO> query = builder.createQuery(QuadroSumarioDTO.class);
+        CriteriaQuery<QuadroSumarioRepresentation> query = builder.createQuery(QuadroSumarioRepresentation.class);
         Root<Quadro> root = query.from(Quadro.class);
 
         List<Predicate> predicates = new ArrayList<>();
 
         query.select(
                 builder.construct(
-                        QuadroSumarioDTO.class,
+                        QuadroSumarioRepresentation.class,
                         root.get("id"),
                         root.get("titulo"),
                         root.get("dataDeCriacao")
@@ -49,7 +49,7 @@ public class QuadroRepositoryImpl implements QuadroQueryRepository {
 
         query.orderBy(builder.desc(root.get("dataDeCriacao")));
 
-        TypedQuery<QuadroSumarioDTO> typedQuery = entityManager.createQuery(query);
+        TypedQuery<QuadroSumarioRepresentation> typedQuery = entityManager.createQuery(query);
 
         typedQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         typedQuery.setMaxResults(pageable.getPageSize());

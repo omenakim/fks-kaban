@@ -1,0 +1,12 @@
+<div fxFlex="100" style="margin: 0px auto;">
+    <mat-card>
+        <h1 fxFlex="99" fxLayoutAlign="start center">{{quadro.titulo}}</h1>
+        <button fxFlex="1" fxLayoutAlign="end center" mat-button [matMenuTriggerFor]="menu">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Informações</button>
+            <button mat-menu-item>Membros</button>
+        </mat-menu>
+    </mat-card>
+</div>

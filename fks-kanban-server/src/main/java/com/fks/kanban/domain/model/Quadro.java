@@ -65,6 +65,10 @@ public class Quadro {
         this.membros.remove(membro);
     }
 
+    public Boolean possuiMembro(Usuario membro){
+        return this.membros.contains(membro);
+    }
+
     protected Quadro() {
 
     }

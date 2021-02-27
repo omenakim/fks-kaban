@@ -5,22 +5,22 @@
     <div fxLayout="row wrap" fxLayoutAlign="space-around" fxLayoutGap="10" fxFlex="100" fxFlexFill>
         <form [formGroup]="form">
             <div fxLayout="column">
-                <div fxLayout="row wrap" fxLayoutGap="10" fxFlex="100%" [style.marginTop]="'10px'"
+                <div fxLayout="row wrap" fxLayoutGap="10" fxFlex="100" [style.marginTop]="'10px'"
                     fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="100%" fxFlexFill>
+                    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="100" fxFlexFill>
                         <mat-form-field [style.width]="'100%'" appearance="outline">
                             <mat-label>Título</mat-label>
                             <input matInput disabled formControlName="titulo">
                         </mat-form-field>
                     </div>
-                    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="100%" fxFlexFill>
+                    <div fxLayout="column" fxLayoutAlign="center center" fxFlex="100" fxFlexFill>
                         <mat-form-field [style.width]="'100%'" appearance="outline">
                             <mat-label>Descrição</mat-label>
                             <textarea rows="10" matInput formControlName="descricao"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
-                <div fxLayout="row wrap" fxLayoutGap="10" fxFlex="100%" [style.marginTop]="'20px'"
+                <div fxLayout="row wrap" fxLayoutGap="10" fxFlex="100" [style.marginTop]="'20px'"
                     fxLayoutAlign="end center">
                     <button mat-raised-button (click)="close()" [style.marginRight]="'10px'"
                         mat-dialog-close>Cancelar</button>

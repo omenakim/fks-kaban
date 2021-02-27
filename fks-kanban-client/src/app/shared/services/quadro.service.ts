@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthHttp } from 'src/app/core/http/auth-http';
 import { environment } from 'src/environments/environment';
-import { CriarQuadroRequest, QuadroSumario } from '../models/quadro';
+import { CriarQuadroRequest, Quadro, QuadroSumario } from '../models/quadro';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,10 @@ export class QuadroService {
     });
 
     return this.http.get(`${this.apiURL}`, { params });
+  }
+
+  findById(id: number): Observable<Quadro> {
+    return this.http.get(`${this.apiURL}/${id}`);
   }
 
 }

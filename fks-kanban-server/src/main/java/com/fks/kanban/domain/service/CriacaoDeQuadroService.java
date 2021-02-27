@@ -1,6 +1,5 @@
 package com.fks.kanban.domain.service;
 
-import com.fks.kanban.domain.exception.UsuarioNaoEncontradoException;
 import com.fks.kanban.domain.model.Quadro;
 import com.fks.kanban.domain.model.Usuario;
 import com.fks.kanban.domain.repository.QuadroRepository;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Service
@@ -26,17 +26,13 @@ public class CriacaoDeQuadroService {
     private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public void executar(@NotBlank @Size(max = 255) String titulo, @Size(min = 1, max = 5000) String descricao, @NotBlank String username){
+    public void executar(@NotBlank @Size(max = 255) String titulo, @Size(min = 1, max = 5000) String descricao, @NotNull Usuario usuarioLogado){
 
-        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> {
-            throw new UsuarioNaoEncontradoException(username);
-        });
-
-        Quadro quadro = new Quadro(titulo, descricao, usuario);
+        Quadro quadro = new Quadro(titulo, descricao, usuarioLogado);
 
         quadroRepository.save(quadro);
 
-        log.info("Quadro de id {} criado com sucesso pelo usuário: {}", quadro.getId(), username);
+        log.info("Quadro de id {} criado com sucesso pelo usuário: {}", quadro.getId(), usuarioLogado.getUsername());
     }
 
 }

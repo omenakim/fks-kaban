@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { QuadroSumario } from 'src/app/shared/models/quadro';
 import { QuadroService } from 'src/app/shared/services/quadro.service';
@@ -24,7 +25,8 @@ export class QuadroListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private quadroService: QuadroService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -35,20 +37,23 @@ export class QuadroListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.loadQuadros();
     this.paginator.page.pipe(
-      tap(()=> this.loadQuadros())
+      tap(() => this.loadQuadros())
     ).subscribe();
   }
 
-  loadQuadros(){
-    this.quadroService.findAllThatUserBelongs(this.paginator.pageIndex, this.paginator.pageSize).subscribe(response => {
-      console.log(response)
+  loadQuadros() {
+
+    const page: number = this.paginator.pageIndex;
+    const size: number = this.paginator.pageSize;
+
+    this.quadroService.findAllThatUserBelongs(page, size).subscribe(response => {
       this.totalElements = response["totalElements"]
       this.pageSize = response["size"];
       this.quadrosDataSource = new MatTableDataSource(response['content']);
     })
   }
 
-  openQuadroForm(){
+  openQuadroForm() {
     const dialogRef = this.dialog.open(QuadroFormComponent, {
       height: '50vh',
       width: '600px',
@@ -56,6 +61,10 @@ export class QuadroListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       this.loadQuadros();
     });
+  }
+
+  navigateToQuadroDetails(row: any) {
+    this.router.navigate([`quadros/${row.id}`]);
   }
 
 }

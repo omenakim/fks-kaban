@@ -1,11 +1,15 @@
 package com.fks.kanban.application.resource;
 
 import com.fks.kanban.application.resource.request.CriarQuadroRequest;
+import com.fks.kanban.domain.exception.QuadroNaoEncontradoException;
+import com.fks.kanban.domain.exception.QuadroProibidoException;
 import com.fks.kanban.domain.exception.UsuarioNaoEncontradoException;
+import com.fks.kanban.domain.model.Quadro;
 import com.fks.kanban.domain.model.Usuario;
-import com.fks.kanban.domain.repository.representation.QuadroSumarioDTO;
 import com.fks.kanban.domain.repository.QuadroRepository;
 import com.fks.kanban.domain.repository.UsuarioRepository;
+import com.fks.kanban.domain.repository.representation.QuadroDetalhesRepresentation;
+import com.fks.kanban.domain.repository.representation.QuadroSumarioRepresentation;
 import com.fks.kanban.domain.service.CriacaoDeQuadroService;
 import com.fks.kanban.infrastructure.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,24 +38,44 @@ public class QuadroResource {
 
     @GetMapping
     @PreAuthorize("@securityService.isAuthenticated()")
-    public Page<QuadroSumarioDTO> listarQuadros(Pageable pageable){
+    public Page<QuadroSumarioRepresentation> listarQuadros(Pageable pageable) {
 
-        String username = securityService.getUsername();
+        Usuario usuarioLogado = getUsuarioLogado();
 
-        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(
-                ()-> new UsuarioNaoEncontradoException(username)
+        return quadroRepository.findAllThatUserBelongs(pageable, usuarioLogado);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("@securityService.isAuthenticated()")
+    public QuadroDetalhesRepresentation buscarPorId(@PathVariable Long id) {
+
+        Usuario usuarioLogado = getUsuarioLogado();
+
+        Quadro quadro = quadroRepository.findById(id).orElseThrow(
+                () -> new QuadroNaoEncontradoException(id)
         );
 
-        return quadroRepository.findAllThatUserBelongs(pageable, usuario);
+        if (!quadro.possuiMembro(usuarioLogado))
+            throw new QuadroProibidoException(id);
+
+        return QuadroDetalhesRepresentation.fromDomain(quadro);
+
     }
 
     @PostMapping
     @PreAuthorize("@securityService.isAuthenticated()")
-    public void criarQuadro(@RequestBody @Valid CriarQuadroRequest request){
+    public void criarQuadro(@RequestBody @Valid CriarQuadroRequest request) {
 
+        Usuario usuarioLogado = getUsuarioLogado();
+
+        this.criacaoDeQuadro.executar(request.getTitulo(), request.getDescricao(), usuarioLogado);
+
+    }
+
+    private Usuario getUsuarioLogado() {
         String username = securityService.getUsername();
-
-        this.criacaoDeQuadro.executar(request.getTitulo(), request.getDescricao(), username);
-
+        return usuarioRepository.findByUsername(username).orElseThrow(
+                () -> new UsuarioNaoEncontradoException(username)
+        );
     }
 }
