@@ -3,7 +3,6 @@ package com.fks.kanban.application.resource;
 import com.fks.kanban.application.resource.request.CriarQuadroRequest;
 import com.fks.kanban.domain.exception.QuadroNaoEncontradoException;
 import com.fks.kanban.domain.exception.QuadroProibidoException;
-import com.fks.kanban.domain.exception.UsuarioNaoEncontradoException;
 import com.fks.kanban.domain.model.Quadro;
 import com.fks.kanban.domain.model.Usuario;
 import com.fks.kanban.domain.repository.QuadroRepository;
@@ -11,8 +10,8 @@ import com.fks.kanban.domain.repository.UsuarioRepository;
 import com.fks.kanban.domain.repository.representation.QuadroDetalhesRepresentation;
 import com.fks.kanban.domain.repository.representation.QuadroSumarioRepresentation;
 import com.fks.kanban.domain.repository.representation.UsuarioSumarioRepresentation;
-import com.fks.kanban.domain.service.CriacaoDeQuadroService;
-import com.fks.kanban.infrastructure.security.SecurityService;
+import com.fks.kanban.domain.service.QuadroService;
+import com.fks.kanban.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +28,10 @@ import java.util.stream.Collectors;
 public class QuadroResource {
 
     @Autowired
-    private CriacaoDeQuadroService criacaoDeQuadro;
+    private QuadroService quadroService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private QuadroRepository quadroRepository;
@@ -37,14 +39,11 @@ public class QuadroResource {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private SecurityService securityService;
-
     @GetMapping
     @PreAuthorize("@securityService.isAuthenticated()")
-    public Page<QuadroSumarioRepresentation> listarQuadros(Pageable pageable) {
+    public Page<QuadroSumarioRepresentation> listarQuadrosDoUsuarioLogado(Pageable pageable) {
 
-        Usuario usuarioLogado = getUsuarioLogado();
+        Usuario usuarioLogado = usuarioService.obterUsuarioLogado();
 
         return quadroRepository.findAllThatUserBelongs(pageable, usuarioLogado);
     }
@@ -53,7 +52,7 @@ public class QuadroResource {
     @PreAuthorize("@securityService.isAuthenticated()")
     public QuadroDetalhesRepresentation buscarPorId(@PathVariable Long id) {
 
-        Usuario usuarioLogado = getUsuarioLogado();
+        Usuario usuarioLogado = usuarioService.obterUsuarioLogado();
 
         Quadro quadro = quadroRepository.findById(id).orElseThrow(
                 () -> new QuadroNaoEncontradoException(id)
@@ -68,9 +67,9 @@ public class QuadroResource {
 
     @GetMapping("/{id}/nao-membros")
     @PreAuthorize("@securityService.isAuthenticated()")
-    public List<UsuarioSumarioRepresentation> buscarNaoMembrosByQuadroId(@PathVariable Long id) {
+    public List<UsuarioSumarioRepresentation> buscarNaoMembrosPorQuadroId(@PathVariable Long id) {
 
-        Usuario usuarioLogado = getUsuarioLogado();
+        Usuario usuarioLogado = usuarioService.obterUsuarioLogado();
 
         Quadro quadro = quadroRepository.findById(id).orElseThrow(
                 () -> new QuadroNaoEncontradoException(id)
@@ -89,16 +88,11 @@ public class QuadroResource {
     @PreAuthorize("@securityService.isAuthenticated()")
     public void criarQuadro(@RequestBody @Valid CriarQuadroRequest request) {
 
-        Usuario usuarioLogado = getUsuarioLogado();
+        Usuario usuarioLogado = usuarioService.obterUsuarioLogado();
 
-        this.criacaoDeQuadro.executar(request.getTitulo(), request.getDescricao(), usuarioLogado);
+        this.quadroService.criarQuadro(request.getTitulo(), request.getDescricao());
 
     }
 
-    private Usuario getUsuarioLogado() {
-        String username = securityService.getUsername();
-        return usuarioRepository.findByUsername(username).orElseThrow(
-                () -> new UsuarioNaoEncontradoException(username)
-        );
-    }
+
 }

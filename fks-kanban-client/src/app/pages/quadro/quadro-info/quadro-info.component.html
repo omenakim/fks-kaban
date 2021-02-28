@@ -13,13 +13,13 @@
                 <mat-label>Usuário</mat-label>
                 <input type="text" placeholder="Selecione" aria-label="Number" matInput
                     [formControl]="usuarioFormControl" [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUsername">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="exibirUsername">
                     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                         {{option.username}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <button (click)="addMembro()" [disabled]="!usuarioFormControl.value" mat-raised-button
+            <button (click)="adicionarMembro()" [disabled]="!usuarioFormControl.value" mat-raised-button
                 color="primary">Adicionar</button>
             <table style="width: 100%;" mat-table [dataSource]="membrosDataSource">
 
@@ -48,7 +48,7 @@
                         </button>
                         <mat-menu #menuTop="matMenu" fxLayout="column">
                             <mat-list role="list">
-                            <mat-list-item style="cursor: pointer;" role="listitem" (click)="removeMembro(element)">
+                            <mat-list-item style="cursor: pointer;" role="listitem" (click)="removerMembro(element)">
                                     <mat-icon [style.color]="'gray'" class="material-icons">delete</mat-icon>Remover membro
                                 </mat-list-item>
                             </mat-list>
@@ -63,7 +63,7 @@
     </mat-card-content>
     <mat-card-actions>
         <div fxLayout="row wrap" fxLayoutGap="10" fxFlex="100" [style.marginTop]="'20px'" fxLayoutAlign="end center">
-            <button mat-raised-button (click)="close()" [style.marginRight]="'10px'" mat-dialog-close>Fechar</button>
+            <button mat-raised-button (click)="fechar()" [style.marginRight]="'10px'" mat-dialog-close>Fechar</button>
         </div>
     </mat-card-actions>
 </mat-card>

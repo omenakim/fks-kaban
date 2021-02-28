@@ -35,35 +35,35 @@ export class QuadroListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadQuadros();
+    this.buscarQuadros();
     this.paginator.page.pipe(
-      tap(() => this.loadQuadros())
+      tap(() => this.buscarQuadros())
     ).subscribe();
   }
 
-  loadQuadros() {
+  buscarQuadros() {
 
     const page: number = this.paginator.pageIndex;
     const size: number = this.paginator.pageSize;
 
-    this.quadroService.findAllThatUserBelongs(page, size).subscribe(response => {
+    this.quadroService.listarQuadrosDoUsuarioLogado(page, size).subscribe(response => {
       this.totalElements = response["totalElements"]
       this.pageSize = response["size"];
       this.quadrosDataSource = new MatTableDataSource(response['content']);
     })
   }
 
-  openQuadroForm() {
+  abrirQuadroForm() {
     const dialogRef = this.dialog.open(QuadroFormComponent, {
       height: '50vh',
       width: '600px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.loadQuadros();
+      this.buscarQuadros();
     });
   }
 
-  navigateToQuadroDetails(row: any) {
+  navegarParaDetalhes(row: any) {
     this.router.navigate([`quadros/${row.id}`]);
   }
 

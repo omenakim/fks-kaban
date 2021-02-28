@@ -4,7 +4,7 @@
         <mat-card class="main-card title-card mat-elevation-z4" fxFlex="100">
             <mat-card-content>
                 <h1 fxFlex="80">Quadros</h1>
-                <button fxFlex="20" (click)="openQuadroForm()" mat-raised-button color="primary">Criar Quadro</button>
+                <button fxFlex="20" (click)="abrirQuadroForm()" mat-raised-button color="primary">Criar Quadro</button>
             </mat-card-content>
         </mat-card>
 
@@ -35,7 +35,7 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row style="cursor: pointer;" *matRowDef="let row; columns: displayedColumns;"
-                    (click)="navigateToQuadroDetails(row)"></tr>
+                    (click)="navegarParaDetalhes(row)"></tr>
             </table>
 
             <mat-paginator [length]="totalElements" [pageSize]="pageSize" [pageSizeOptions]="[5, 25, 50]"

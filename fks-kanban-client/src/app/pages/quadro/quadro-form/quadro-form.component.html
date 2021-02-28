@@ -22,9 +22,9 @@
                 </div>
                 <div fxLayout="row wrap" fxLayoutGap="10" fxFlex="100" [style.marginTop]="'20px'"
                     fxLayoutAlign="end center">
-                    <button mat-raised-button (click)="close()" [style.marginRight]="'10px'"
+                    <button mat-raised-button (click)="fechar()" [style.marginRight]="'10px'"
                         mat-dialog-close>Cancelar</button>
-                    <button [disabled]="!form.valid" mat-raised-button (click)="confirm()" color="primary">Salvar</button>
+                    <button [disabled]="!form.valid" mat-raised-button (click)="salvar()" color="primary">Salvar</button>
                 </div>
             </div>
         </form>

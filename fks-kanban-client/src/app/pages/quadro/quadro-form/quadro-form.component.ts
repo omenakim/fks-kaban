@@ -26,35 +26,35 @@ export class QuadroFormComponent implements OnInit {
       titulo: undefined,
       descricao: undefined
     }
-    this.createForm();
+    this.criarForm();
     this.dialogRef.disableClose = true;
   }
 
-  createForm() {
+  criarForm() {
     this.form = this.formBuilder.group({
       titulo: [this.quadroRequest.titulo, [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       descricao: [this.quadroRequest.descricao, [Validators.minLength(1), Validators.maxLength(5000)]],
     });
   }
 
-  createRequest() {
+  montarRequest() {
     this.quadroRequest = {
       titulo: this.form.value.titulo,
       descricao: this.form.value.descricao
     }
   }
 
-  confirm() {
-    this.createRequest();
+  salvar() {
+    this.montarRequest();
     this.quadroService.save(this.quadroRequest).subscribe(() => {
       this.messageService.showMessage(['Quadro criado com sucesso'], 'success');
-      this.close();
+      this.fechar();
     }, () => {
-      this.close();
+      this.fechar();
     });
   }
 
-  close() {
+  fechar() {
     this.dialogRef.close();
   }
 

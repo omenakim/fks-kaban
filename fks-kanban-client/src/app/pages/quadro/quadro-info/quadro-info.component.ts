@@ -34,50 +34,50 @@ export class QuadroInfoComponent implements OnInit {
   ngOnInit(): void {
     this.dialogRef.disableClose = true;
     this.quadro = this.data;
-    this.loadMembros();
-    this.loadNaoMembros();
-    this.initFilteredOptionsListener();
+    this.carregarMembros();
+    this.buscarNaoMembros();
+    this.iniciarAutocomplete();
     this.usuarioLogado = this.authService.jwtPayload.user_name;
   }
 
-  addMembro() {
+  adicionarMembro() {
     console.log(this.usuarioFormControl.value)
   }
 
-  removeMembro(usuario: Usuario) {
+  removerMembro(usuario: Usuario) {
     console.log(usuario)
   }
 
-  loadMembros() {
+  carregarMembros() {
     this.membrosDataSource = new MatTableDataSource(this.quadro.membros);
   }
 
-  loadNaoMembros() {
+  buscarNaoMembros() {
     this.options = [];
     this.quadroService.findNaoMembrosByQuadroId(this.quadro.id).subscribe(response => {
       this.options = response;
     });
   }
 
-  initFilteredOptionsListener() {
+  iniciarAutocomplete() {
     this.filteredOptions = this.usuarioFormControl.valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.username),
-        map(username => username ? this.filterByUsername(username) : this.options.slice())
+        map(username => username ? this.filtrarPorUsername(username) : this.options.slice())
       );
   }
 
-  private filterByUsername(username: string): Usuario[] {
+  private filtrarPorUsername(username: string): Usuario[] {
     const filterValue = username.toLowerCase();
     return this.options.filter(option => option.username.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  close() {
+  fechar() {
     this.dialogRef.close();
   }
 
-  displayUsername(usuario: Usuario): string {
+  exibirUsername(usuario: Usuario): string {
     return usuario && usuario.username ? usuario.username : '';
   }
 

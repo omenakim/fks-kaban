@@ -20,7 +20,7 @@ export class QuadroService {
     return this.http.post<void>(`${this.apiURL}`, criarQuadroRequest, { withCredentials: true }).pipe(take(1));
   }
 
-  findAllThatUserBelongs(page: number, size: number): Observable<QuadroSumario[]> {
+  listarQuadrosDoUsuarioLogado(page: number, size: number): Observable<QuadroSumario[]> {
 
     let params = new HttpParams({
       fromObject: {
@@ -32,7 +32,7 @@ export class QuadroService {
     return this.http.get(`${this.apiURL}`, { params });
   }
 
-  findById(id: number): Observable<Quadro> {
+  buscarPorId(id: number): Observable<Quadro> {
     return this.http.get(`${this.apiURL}/${id}`);
   }
 

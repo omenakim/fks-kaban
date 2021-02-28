@@ -25,13 +25,13 @@ export class QuadroDetailsComponent implements OnInit {
   ngOnInit(): void {
 
     this.id = this.route.snapshot.params['id'];
-    this.quadroService.findById(this.id).subscribe(response => {
+    this.quadroService.buscarPorId(this.id).subscribe(response => {
       this.quadro = response;
     });
 
   }
 
-  openQuadroInfo() {
+  abrirQuadroInfo() {
     const dialogRef = this.dialog.open(QuadroInfoComponent, {
       width: '900px',
       data: this.quadro
