@@ -8,4 +8,29 @@
             <button mat-menu-item (click)="abrirQuadroInfo()">Informações</button>
         </mat-menu>
     </mat-card>
+    <div style="margin-top: 20px;">
+        <div cdkDropListGroup fxLayout="row wrap">
+            <div class="example-container">
+                <h2>To do</h2>
+
+                <div cdkDropList [cdkDropListData]="todo" class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let item of todo" cdkDrag>
+                        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                        {{item}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-container">
+                <h2>Done</h2>
+
+                <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let item of done" cdkDrag>
+                        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                        {{item}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

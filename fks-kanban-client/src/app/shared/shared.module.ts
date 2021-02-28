@@ -19,6 +19,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -45,6 +47,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     HttpClientModule,
     FlexLayoutModule,
 
+    DragDropModule,
+    ScrollingModule,
     MatToolbarModule,
     MatGridListModule,
     MatFormFieldModule,
@@ -65,6 +69,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     NgxMaskModule.forRoot(options)
   ],
   exports: [
+    DragDropModule,
+    ScrollingModule,
     MatToolbarModule,
     MatGridListModule,
     MatFormFieldModule,
