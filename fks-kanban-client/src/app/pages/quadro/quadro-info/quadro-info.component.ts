@@ -54,7 +54,7 @@ export class QuadroInfoComponent implements OnInit {
 
   buscarNaoMembros() {
     this.options = [];
-    this.quadroService.findNaoMembrosByQuadroId(this.quadro.id).subscribe(response => {
+    this.quadroService.buscarNaoMembrosPorQuadroId(this.quadro.id).subscribe(response => {
       this.options = response;
     });
   }

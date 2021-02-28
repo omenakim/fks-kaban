@@ -36,7 +36,7 @@ export class QuadroService {
     return this.http.get(`${this.apiURL}/${id}`);
   }
 
-  findNaoMembrosByQuadroId(quadroId: number): Observable<Usuario[]> {
+  buscarNaoMembrosPorQuadroId(quadroId: number): Observable<Usuario[]> {
     return this.http.get(`${this.apiURL}/${quadroId}/nao-membros`);
   }
 
