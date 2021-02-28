@@ -10,6 +10,7 @@ import com.fks.kanban.domain.repository.QuadroRepository;
 import com.fks.kanban.domain.repository.UsuarioRepository;
 import com.fks.kanban.domain.repository.representation.QuadroDetalhesRepresentation;
 import com.fks.kanban.domain.repository.representation.QuadroSumarioRepresentation;
+import com.fks.kanban.domain.repository.representation.UsuarioSumarioRepresentation;
 import com.fks.kanban.domain.service.CriacaoDeQuadroService;
 import com.fks.kanban.infrastructure.security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/quadros")
@@ -59,6 +63,25 @@ public class QuadroResource {
             throw new QuadroProibidoException(id);
 
         return QuadroDetalhesRepresentation.fromDomain(quadro);
+
+    }
+
+    @GetMapping("/{id}/nao-membros")
+    @PreAuthorize("@securityService.isAuthenticated()")
+    public List<UsuarioSumarioRepresentation> buscarNaoMembrosByQuadroId(@PathVariable Long id) {
+
+        Usuario usuarioLogado = getUsuarioLogado();
+
+        Quadro quadro = quadroRepository.findById(id).orElseThrow(
+                () -> new QuadroNaoEncontradoException(id)
+        );
+
+        if (!quadro.possuiMembro(usuarioLogado))
+            throw new QuadroProibidoException(id);
+
+        List<Usuario> naoMembros = usuarioRepository.findNaoMembros(new ArrayList<>(quadro.getMembros()));
+
+        return naoMembros.stream().map(UsuarioSumarioRepresentation::fromDomain).collect(Collectors.toList());
 
     }
 

@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { AuthHttp } from 'src/app/core/http/auth-http';
 import { environment } from 'src/environments/environment';
 import { CriarQuadroRequest, Quadro, QuadroSumario } from '../models/quadro';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class QuadroService {
 
   findById(id: number): Observable<Quadro> {
     return this.http.get(`${this.apiURL}/${id}`);
+  }
+
+  findNaoMembrosByQuadroId(quadroId: number): Observable<Usuario[]> {
+    return this.http.get(`${this.apiURL}/${quadroId}/nao-membros`);
   }
 
 }

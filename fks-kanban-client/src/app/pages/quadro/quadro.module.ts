@@ -5,6 +5,7 @@ import { QuadroListComponent } from './quadro-list/quadro-list.component';
 import { QuadroRoutingModule } from './quadro-routing.module';
 import { QuadroFormComponent } from './quadro-form/quadro-form.component';
 import { QuadroDetailsComponent } from './quadro-details/quadro-details.component';
+import { QuadroInfoComponent } from './quadro-info/quadro-info.component';
 
 
 
@@ -12,7 +13,8 @@ import { QuadroDetailsComponent } from './quadro-details/quadro-details.componen
   declarations: [
     QuadroListComponent,
     QuadroFormComponent,
-    QuadroDetailsComponent
+    QuadroDetailsComponent,
+    QuadroInfoComponent
   ],
   imports: [
     SharedModule,

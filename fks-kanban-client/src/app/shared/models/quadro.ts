@@ -1,12 +1,12 @@
-import { usuario } from "./usuario";
+import { Usuario } from "./usuario";
 
 export interface Quadro {
     id?: number;
     titulo?: string;
     descricao?: string;
-    dono?: usuario;
+    dono?: Usuario;
     dataDeCriacao?: Date;
-    membros?: usuario[];
+    membros?: Usuario[];
 }
 
 export interface QuadroSumario {

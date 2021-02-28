@@ -5,8 +5,7 @@
             <mat-icon aria-hidden="false" aria-label="Example home icon">more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item>Informações</button>
-            <button mat-menu-item>Membros</button>
+            <button mat-menu-item (click)="openQuadroInfo()">Informações</button>
         </mat-menu>
     </mat-card>
 </div>

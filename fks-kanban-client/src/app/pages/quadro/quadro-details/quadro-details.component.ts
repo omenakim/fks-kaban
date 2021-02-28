@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Quadro } from 'src/app/shared/models/quadro';
 import { QuadroService } from 'src/app/shared/services/quadro.service';
+import { QuadroInfoComponent } from '../quadro-info/quadro-info.component';
 
 @Component({
   selector: 'app-quadro-details',
@@ -11,12 +13,13 @@ import { QuadroService } from 'src/app/shared/services/quadro.service';
 export class QuadroDetailsComponent implements OnInit {
 
   id: number;
-  quadro: Quadro;
+  quadro: Quadro = {};
 
   constructor(
     private quadroService: QuadroService,
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -27,5 +30,13 @@ export class QuadroDetailsComponent implements OnInit {
     });
 
   }
+
+  openQuadroInfo() {
+    const dialogRef = this.dialog.open(QuadroInfoComponent, {
+      width: '900px',
+      data: this.quadro
+    });
+  }
+
 
 }
